@@ -1,0 +1,119 @@
+<main class="bodyForm">
+
+  <div class="col-md-12 ml-md-auto">
+    <h3 class="tituloForm">Dados do Cliente</h3>
+
+    <div class="row {{sizeInputs}} formCliente" [formGroup]="objForm" >
+      <label for="NMCLIENT" class="form-label">Cliente *</label>
+      <input type="text" formControlName="NMCLIENT" name="NMCLIENT" class="form-control inputTx" >
+    </div>
+
+    <div class="row {{sizeInputs}} formCliente" [formGroup]="objForm" >
+      <label for="CPRESPON" class="form-label">CPF *</label>
+      <input type            = "text" 
+             mask            = "999.999.999-99" 
+             maxlength       = "14" 
+             placeholder     = "___.___.___-__"
+             formControlName = "CPRESPON" 
+             name            = "objCliente.CPRESPON" 
+             class           = "form-control inputTx" >
+    </div>
+    
+    <div class="row {{sizeInputs}} formCliente" [formGroup]="objForm" >
+      <label for="DTNASCIM" class="form-label">Data de Nascimento *</label>
+      <input type="date" formControlName="DTNASCIM" name="objCliente.DTNASCIM" class="form-control inputTx" >
+    </div>
+    
+    <div class="row {{sizeInputs}} formCliente" [formGroup]="objForm" >
+      <label for="NRTELEFO" class="form-label">Telefone/Celular</label>
+      <input  type            = "text" 
+              mask            = "(99) 99999-9999" 
+              maxlength       = "15" 
+              placeholder     = "(__) _____-____" 
+              formControlName = "NRTELEFO" 
+              name            = "objCliente.NRTELEFO" 
+              class           = "form-control inputTx" >
+    </div>
+
+    <div class="row {{sizeInputs}} formCliente" [formGroup]="objForm" >
+      <label for="DSEMAIL" class="form-label">E-mail</label>
+      <input type="email" formControlName="DSEMAIL" name="objCliente.DSEMAIL" class="form-control inputTx">
+    </div>       
+  </div>
+
+  <div class="{{size12}}">
+    <h3 class="row tituloForm">Endereço</h3>
+                  
+    <div class="row {{sizeInputs}} formCliente" [formGroup]="objForm" >
+      <label for="DSCEP" class="form-label">CEP *</label>
+      <input  type="text" 
+              mask="99999-999" 
+              maxlength="9" 
+              placeholder="_____-___" 
+              formControlName="DSCEP" 
+              name="objCliente.DSCEP" 
+              class="form-control inputTx" 
+              (ngModelChange)="getCep()" >
+    </div>
+                  
+    <div class="row {{sizeInputs}} formCliente" [formGroup]="objForm" >
+      <label for="DSENDERE" class="form-label">Endereço *</label>
+      <input type="text" formControlName="DSENDERE" name="objCliente.DSENDERE"  class="form-control inputTx" >
+    </div>
+                          
+    <div class="row {{sizeInputs}} formCliente" [formGroup]="objForm" >
+      <label for="DSNUMERO" class="form-label">Número *</label>
+      <input type="number" formControlName="DSNUMERO" name="objCliente.DSNUMERO"  class="form-control inputTx" >
+    </div>
+                  
+    <div class="row {{sizeInputs}} formCliente" [formGroup]="objForm" >
+      <label for="DSBAIRRO" class="form-label">Bairro *</label>
+      <input type="text" formControlName="DSBAIRRO" name="objCliente.DSBAIRRO"  class="form-control inputTx" >
+    </div>
+                  
+    <div class="row {{sizeInputs}} formCliente" [formGroup]="objForm" >
+      <label for="DSCOMPLE" class="form-label">Complemento</label>
+      <input type="text" formControlName="DSCOMPLE" name="objCliente.DSCOMPLE"  class="form-control inputTx">
+    </div>
+
+    <div class="row {{sizeInputs}} formCliente" [formGroup]="objForm" >
+      <label for="NMCIDADE" class="form-label">Cidade *</label>
+      <input type="text" formControlName="NMCIDADE" name="objCliente.NMCIDADE"  class="form-control inputTx" >
+    </div>
+
+    <div class="row {{sizeInputs}} formCliente" [formGroup]="objForm">
+      <label for="DSUF" class="form-label">UF *</label>
+      <select class="form-select inputTx" aria-label="Default select example" formControlName="DSUF">
+    
+        @if(optionUF && optionUF.id ){
+          <option value="{{optionUF.id}}" selected > {{optionUF.nome + ' - ' +optionUF.text}} </option>
+        }
+    
+        @for (uf of arUf; track $index) {
+          <option value="{{uf.id}}" > {{uf.nome}} - {{uf.sigla}} </option>
+        }
+    
+      </select>
+    </div>
+  </div>
+  <button type="button" class="btn btn-danger botaoCadastro" (click)="voltar(1)"> <fa-icon [icon]="faBackwardStep"></fa-icon> Voltar</button>
+  <button type="button" class="btn btn-primary botaoCadastro" (click)="salvarCliente(objCliente)" data-bs-toggle="modal" data-bs-target="#exampleModal"> <fa-icon [icon]="faPaperPlane"></fa-icon> Salvar</button>
+</main>
+
+<!-- MODAL ALERT -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">ATENÇÃO</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {{txAlert}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" (click)="voltar(0)" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
