@@ -1,0 +1,83 @@
+
+<header class="app-header bg-body-secondary">        
+    <div class="{{size6}} text-primary subtitle">
+        <h2>Integração de Clientes </h2>
+    </div>
+</header>
+
+@if (contentView == 1){
+    <div class="{{size12}} mainAbertura">
+        <button type="button"class="btn btn-primary botaoAdd" (click)="editCliente(2)"> 
+            <fa-icon [icon]="faPlusCircle"></fa-icon> Novo Cliente
+        </button>
+        <div class="table-responsive">
+            <table class="table table-sm">
+                <thead>
+                <tr>
+                    <th scope="col">Cód.     </th>
+                    <th scope="col">Cliente  </th>
+                    <th scope="col">CPF      </th>
+                    <th scope="col">Telefone </th>
+                    <th scope="col">E-mail   </th>
+                    <th scope="col">CEP      </th>
+                    <th scope="col">Endereço </th>
+                    <th scope="col">Bairro   </th>
+                    <th scope="col">Cidade   </th>
+                    <th scope="col">Estado   </th>
+                    <th scope="col">Editar   </th>
+                    <th scope="col">Remover  </th>
+                </tr>
+                </thead>
+                <tbody>
+                    @for (cliente of arCliente; track $index) {
+                        <tr>    
+                            <th scope="row">{{cliente.id}}                                                  </th>
+                            <th scope="row">{{cliente.NMCLIENT}}                                            </th>
+                            <th scope="row">{{cliente.CPRESPON ? this.mask(cliente.CPRESPON, 'cpf') : ''}}  </th>
+                            <th scope="row">{{cliente.NRTELEFO ? this.mask(cliente.NRTELEFO, 'tel') : ''}}  </th>
+                            <th scope="row">{{cliente.DSEMAIL}}                                             </th>
+                            <th scope="row">{{cliente.DSCEP ? this.mask(cliente.DSCEP, 'cep') : ''}}        </th>
+                            <th scope="row">{{cliente.DSENDERE + ', ' + cliente.DSNUMERO  + (cliente.DSCOMPLE ? ', ' + cliente.DSCOMPLE : '') }} </th>
+                            <th scope="row">{{cliente.DSBAIRRO}}                                             </th>
+                            <th scope="row">{{cliente.NMCIDADE}}                                             </th>
+                            <th scope="row">{{cliente.ESTADO}}                                             </th>
+                            <th scope="row">
+                                <button type="button" class="btn btn-primary " (click)="viewCliente(cliente.id, 1)"> 
+                                    <fa-icon [icon]="faUserEdit"></fa-icon>
+                                </button>
+                            </th>
+                            <th scope="row">
+                                <button type="button" class="btn btn-primary " (click)="removerCliente(cliente.id)" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    <fa-icon [icon]="faUserTimes"></fa-icon>
+                                </button>
+                            </th>
+                        </tr>
+                    }
+                </tbody>
+            </table>    
+        </div>
+    </div>
+
+    <!-- MODAL ALERT -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">ATENÇÃO</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {{txAlert}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" (click)="voltar()" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+
+
+@if (contentView == 2){
+    <app-cadastro [objCliente]="detalhesCliente"></app-cadastro>
+}
