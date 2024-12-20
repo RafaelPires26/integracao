@@ -1,0 +1,36 @@
+pipelines:
+  custom:
+
+    Production:
+      - step:
+          name: Build INTEGRAÇÃO
+          script:
+            - npm install -g @angular/cli@18.2.2
+            - npm install
+            - export NODE_OPTIONS=--max-old-space-size=10240
+            - ng build --prod
+          artifacts:
+            - dist/**
+      - step:
+          name: Deploy to S3
+          deployment: Production
+          script:
+            - pipe: atlassian/aws-s3-deploy:0.4.4
+              variables:
+                  AWS_ACCESS_KEY_ID: $KEY_ID
+                  AWS_SECRET_ACCESS_KEY: $KEY
+                  AWS_DEFAULT_REGION: $DEFAULT
+                  S3_BUCKET: $BUCKET
+                  LOCAL_PATH: 'dist'
+                  DELETE_FLAG: 'true'
+      - step:
+          name: Invalidate Cloudfront Cache
+          artifacts:
+            download: false
+          script:
+            - pipe: atlassian/aws-cloudfront-invalidate:0.5.0
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID_PRD
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY_PRD
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION_PRD
+                DISTRIBUTION_ID: $DISTRIBUTION_ID_PRD
